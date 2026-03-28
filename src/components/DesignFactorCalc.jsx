@@ -23,13 +23,13 @@ export default function DesignFactorCalc() {
           { label: 'Material Strength S', value: strength, setValue: setStrength, min: 10000, max: 200000, step: 1000, unit: 'psi', format: v => v.toLocaleString() },
           { label: 'Design Factor n\u2090', value: nd, setValue: setNd, min: 1.1, max: 5, step: 0.1, unit: '', format: v => v.toFixed(1) },
         ].map(({ label, value, setValue, min, max, step: s, unit, format }) => (
-          <div key={label} className="bg-[#12122a] rounded-lg p-3">
+          <div key={label} className="bg-[#0e0e1e] rounded-lg p-3">
             <label className="text-xs text-slate-400 block mb-1">{label}</label>
             <input
               type="number"
               value={value}
               onChange={e => setValue(parseFloat(e.target.value))}
-              className="w-full bg-transparent text-[#f59e0b] font-mono font-bold text-lg border-b border-[#2d2d4e] outline-none"
+              className="w-full bg-transparent text-[#f59e0b] font-mono font-bold text-lg border-b border-[#252548] outline-none"
             />
             <input type="range" min={min} max={max} step={s} value={value}
               onChange={e => setValue(parseFloat(e.target.value))}
@@ -73,9 +73,9 @@ export default function DesignFactorCalc() {
             highlight: true
           },
         ].map(s => (
-          <div key={s.num} className={`rounded-lg p-3 border ${s.highlight ? 'border-[#f59e0b] bg-amber-900/10' : 'border-[#2d2d4e] bg-[#12122a]'}`}>
+          <div key={s.num} className={`rounded-lg p-3 border ${s.highlight ? 'border-[#f59e0b] bg-amber-900/10' : 'border-[#252548] bg-[#0e0e1e]'}`}>
             <div className="flex items-start gap-3">
-              <div className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold shrink-0 ${s.highlight ? 'bg-[#f59e0b] text-black' : 'bg-[#2d2d4e] text-slate-400'}`}>
+              <div className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold shrink-0 ${s.highlight ? 'bg-[#f59e0b] text-black' : 'bg-[#252548] text-slate-400'}`}>
                 {s.num}
               </div>
               <div className="flex-1">

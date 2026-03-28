@@ -1,123 +1,50 @@
-import { useState } from 'react'
 import ModuleLayout from '../components/ModuleLayout'
 import Quiz from '../components/Quiz'
-import InteractiveSlider from '../components/InteractiveSlider'
-import StressStrengthViz from '../components/StressStrengthViz'
+import DragAndDrop from '../components/DragAndDrop'
 
-function normalCDF(z) {
-  const t = 1 / (1 + 0.2316419 * Math.abs(z))
-  const d = 0.3989423 * Math.exp(-z * z / 2)
-  const p = d * t * (0.3193815 + t * (-0.3565638 + t * (1.7814779 + t * (-1.8212559 + t * 1.3302744))))
-  return z > 0 ? 1 - p : p
-}
-
-function InterferenceDemo() {
-  const [stressMean, setStressMean] = useState(30)
-  const [stressStd, setStressStd] = useState(4)
-  const [strengthMean, setStrengthMean] = useState(50)
-  const [strengthStd, setStrengthStd] = useState(5)
-
-  const Cs = stressStd / stressMean
-  const Cσ = strengthStd / strengthMean
-  const nd = strengthMean / stressMean
-  const z = -(nd - 1) / Math.sqrt(nd * nd * Cs * Cs + Cσ * Cσ)
-  const pf = normalCDF(z)
-  const reliability = 1 - pf
-
-  return (
-    <div className="space-y-4">
-      <div className="grid grid-cols-2 gap-3">
-        <div className="space-y-2">
-          <div className="text-sm font-semibold text-red-400">Stress Distribution</div>
-          <InteractiveSlider label="Mean \u03c3" value={stressMean} min={10} max={55} step={1} onChange={setStressMean} format={v => v.toFixed(0)} unit=" ksi" />
-          <InteractiveSlider label="Std Dev \u03c3\u0302" value={stressStd} min={1} max={15} step={0.5} onChange={setStressStd} format={v => v.toFixed(1)} unit=" ksi" />
-        </div>
-        <div className="space-y-2">
-          <div className="text-sm font-semibold text-emerald-400">Strength Distribution</div>
-          <InteractiveSlider label="Mean S" value={strengthMean} min={25} max={100} step={1} onChange={setStrengthMean} format={v => v.toFixed(0)} unit=" ksi" />
-          <InteractiveSlider label="Std Dev S\u0302" value={strengthStd} min={1} max={20} step={0.5} onChange={setStrengthStd} format={v => v.toFixed(1)} unit=" ksi" />
-        </div>
-      </div>
-
-      <div className="bg-[#12122a] rounded-xl p-3">
-        <StressStrengthViz
-          stressMean={stressMean} stressStd={stressStd}
-          strengthMean={strengthMean} strengthStd={strengthStd}
-          width={500} height={200}
-        />
-      </div>
-
-      <div className="grid grid-cols-3 gap-2 text-center">
-        <div className="bg-[#12122a] rounded-lg p-2">
-          <div className="text-xs text-slate-500">Design factor n&#x2090;</div>
-          <div className="font-mono font-bold text-[#f59e0b]">{nd.toFixed(2)}</div>
-        </div>
-        <div className="bg-[#12122a] rounded-lg p-2">
-          <div className="text-xs text-slate-500">z-value</div>
-          <div className="font-mono font-bold text-slate-200">{z.toFixed(3)}</div>
-        </div>
-        <div className={`rounded-lg p-2 ${reliability > 0.99 ? 'bg-emerald-900/30' : reliability > 0.95 ? 'bg-amber-900/30' : 'bg-red-900/30'}`}>
-          <div className="text-xs text-slate-500">Reliability R</div>
-          <div className={`font-mono font-bold ${reliability > 0.99 ? 'text-emerald-400' : reliability > 0.95 ? 'text-amber-400' : 'text-red-400'}`}>
-            {(reliability * 100).toFixed(3)}%
-          </div>
-        </div>
-      </div>
-    </div>
-  )
-}
+const problemSolvingSteps = [
+  'Understand the problem',
+  'Identify the knowns',
+  'Identify unknowns & strategy',
+  'State assumptions & decisions',
+  'Analyze the problem',
+  'Evaluate your solution',
+  'Present your solution',
+]
 
 const steps = [
   {
     content: (
       <div className="space-y-4">
-        <h2 className="text-2xl font-bold text-[#f59e0b]">Stress-Strength Interference</h2>
-        <p className="text-slate-300">
-          When both stress and strength are distributions (not single values), the overlap region represents
-          the <strong className="text-slate-100">probability of failure</strong>.
+        <h2 className="text-2xl font-bold text-[#f59e0b]">Professional Responsibilities</h2>
+        <p className="text-slate-300 leading-relaxed">
+          Shigley's &sect;1-5 emphasizes that engineers must be <strong className="text-slate-100">competent,
+          responsible, ethical, and professional</strong>. These are not optional qualities &mdash;
+          they are fundamental requirements of the profession.
         </p>
-        <div className="bg-[#12122a] rounded-xl p-4">
-          <div className="text-center space-y-2">
-            <div className="text-lg font-mono text-slate-200">Margin of safety: <span className="text-[#f59e0b]">m = S &minus; &sigma;</span></div>
-            <div className="text-sm text-slate-400">Failure occurs when m &lt; 0 (stress exceeds strength)</div>
-          </div>
+        <div className="bg-[#0e0e1e] rounded-xl p-4 border border-[#252548]">
+          <blockquote className="text-slate-200 italic border-l-4 border-[#f59e0b] pl-4">
+            "Communication skills play a large role in professional practice. Start developing these
+            skills before graduation."
+          </blockquote>
         </div>
-        <div className="space-y-2">
+        <div className="grid grid-cols-2 gap-3 mt-3">
           {[
-            { condition: 'No overlap', result: 'Very low failure probability (distributions far apart)', color: 'emerald' },
-            { condition: 'Small overlap', result: 'Some failure risk (overlap = failure region)', color: 'amber' },
-            { condition: 'Large overlap', result: 'High failure probability', color: 'red' },
-          ].map(({ condition, result, color }) => (
-            <div key={condition} className={`flex gap-3 p-3 rounded-lg border border-${color}-800 bg-${color}-900/20`}>
-              <span className={`font-semibold text-${color}-300 shrink-0`}>{condition}:</span>
-              <span className={`text-${color}-200/80 text-sm`}>{result}</span>
+            { label: 'Competence', desc: 'Deep technical knowledge, continuously updated', icon: '📚' },
+            { label: 'Responsibility', desc: 'Accountability for design decisions and outcomes', icon: '🎯' },
+            { label: 'Ethics', desc: 'Honest practice, public welfare first', icon: '⚖️' },
+            { label: 'Communication', desc: 'Writing, speaking, and presenting effectively', icon: '🗣️' },
+          ].map(item => (
+            <div key={item.label} className="bg-[#0e0e1e] rounded-lg p-3 border border-[#252548]">
+              <div className="text-xl mb-1">{item.icon}</div>
+              <div className="font-semibold text-slate-100 text-sm">{item.label}</div>
+              <div className="text-xs text-slate-400 mt-1">{item.desc}</div>
             </div>
           ))}
         </div>
-      </div>
-    )
-  },
-  {
-    content: (
-      <div className="space-y-4">
-        <h2 className="text-2xl font-bold text-[#f59e0b]">The Key Equation (Eq. 1-6)</h2>
-        <p className="text-slate-300">Shigley's derives a relationship between design factor n&#x2090; and reliability through the z-transform:</p>
-        <div className="bg-[#12122a] rounded-xl p-5 text-center space-y-3">
-          <div className="text-xl font-mono text-[#f59e0b]">z = &minus;(n&#x2090; &minus; 1) / &radic;(n&#x2090;&sup2;C&sigma;&sup2; + C&#x53;&sup2;)</div>
-          <div className="text-sm text-slate-500">where C = coefficient of variation = &sigma;\u0302/&mu;</div>
-          <div className="grid grid-cols-2 gap-3 mt-3 text-sm">
-            <div className="bg-[#1a1a2e] rounded-lg p-2">
-              <div className="text-slate-500">C&sigma; = &sigma;\u0302_stress / &mu;_stress</div>
-              <div className="text-slate-300">Coeff. of variation for stress</div>
-            </div>
-            <div className="bg-[#1a1a2e] rounded-lg p-2">
-              <div className="text-slate-500">C&#x53; = &sigma;\u0302_strength / &mu;_strength</div>
-              <div className="text-slate-300">Coeff. of variation for strength</div>
-            </div>
-          </div>
-        </div>
-        <div className="bg-blue-900/20 border border-blue-700 rounded-lg p-3 text-sm text-blue-200">
-          💡 Given a target reliability (&rarr; lookup z in standard table), solve this equation for n&#x2090;. Higher reliability requires higher design factor.
+        <div className="bg-amber-900/20 border border-amber-700 rounded-lg p-3 text-sm text-amber-200">
+          Many engineers spend the majority of their working time communicating &mdash; writing reports,
+          presenting to teams, and coordinating with manufacturing. Technical skill alone is not sufficient.
         </div>
       </div>
     )
@@ -125,9 +52,55 @@ const steps = [
   {
     content: (
       <div className="space-y-4">
-        <h2 className="text-2xl font-bold text-[#f59e0b]">Interactive: Two-Distribution Visualization</h2>
-        <p className="text-slate-300">Adjust the distributions and watch the amber overlap (failure zone) change in real time:</p>
-        <InterferenceDemo />
+        <h2 className="text-2xl font-bold text-[#f59e0b]">Systematic Problem-Solving Approach</h2>
+        <p className="text-slate-300 leading-relaxed">
+          Shigley's recommends a structured <strong className="text-slate-100">7-step approach</strong> to solving
+          engineering problems. Following this method reduces errors and ensures thoroughness.
+        </p>
+        <div className="space-y-2">
+          {problemSolvingSteps.map((step, i) => {
+            const colors = [
+              'border-violet-500 bg-violet-900/20',
+              'border-blue-500 bg-blue-900/20',
+              'border-cyan-500 bg-cyan-900/20',
+              'border-teal-500 bg-teal-900/20',
+              'border-amber-500 bg-amber-900/20',
+              'border-orange-500 bg-orange-900/20',
+              'border-emerald-500 bg-emerald-900/20',
+            ]
+            const descriptions = [
+              'Read the problem carefully. What is being asked? What physical situation is described?',
+              'List all given data: dimensions, loads, material properties, constraints.',
+              'What do you need to find? What equations or methods will you use?',
+              'State all simplifying assumptions explicitly (e.g., "neglect friction," "assume static loading").',
+              'Apply the relevant equations and solve step by step. Show your work.',
+              'Check: Do the units work out? Is the magnitude reasonable? Does the sign make sense?',
+              'Organize your solution clearly. Others must be able to follow your reasoning.',
+            ]
+            return (
+              <div key={step} className={`flex gap-3 p-3 rounded-lg border ${colors[i]}`}>
+                <div className="w-7 h-7 rounded-full bg-[#0a0a16] flex items-center justify-center text-sm font-bold text-slate-200 shrink-0">{i + 1}</div>
+                <div>
+                  <div className="font-semibold text-slate-100 text-sm">{step}</div>
+                  <div className="text-xs text-slate-400">{descriptions[i]}</div>
+                </div>
+              </div>
+            )
+          })}
+        </div>
+      </div>
+    )
+  },
+  {
+    content: ({ onCorrect }) => (
+      <div className="space-y-4">
+        <h2 className="text-2xl font-bold text-[#f59e0b]">Interactive: Order the Problem-Solving Steps</h2>
+        <p className="text-slate-300">Drag and drop the seven steps into the correct sequence:</p>
+        <DragAndDrop
+          items={problemSolvingSteps}
+          correctOrder={problemSolvingSteps}
+          onCorrect={onCorrect}
+        />
       </div>
     )
   },
@@ -136,15 +109,126 @@ const steps = [
       <div className="space-y-4">
         <h2 className="text-2xl font-bold text-[#f59e0b]">Check Your Understanding</h2>
         <Quiz
-          question="If we increase the mean strength S while keeping stress distribution unchanged, what happens to reliability?"
+          question="Which step should come FIRST when solving a design problem?"
           options={[
-            'Reliability decreases (more overlap)',
-            'Reliability stays the same (distributions are independent)',
-            'Reliability increases (distributions move further apart)',
-            'Cannot determine without knowing the standard deviations'
+            'State assumptions',
+            'Analyze the problem',
+            'Understand the problem',
+            'Present the solution'
           ]}
           correctIndex={2}
-          explanation="Moving the strength distribution to higher values (larger mean S) separates it further from the stress distribution, reducing the overlap (interference) region and thus decreasing failure probability — increasing reliability."
+          explanation="You must first understand what the problem is asking before you can identify knowns, choose a strategy, or begin analysis. Jumping straight to equations without understanding the problem is a common source of errors."
+          onCorrect={onCorrect}
+        />
+      </div>
+    )
+  },
+  {
+    content: (
+      <div className="space-y-4">
+        <h2 className="text-2xl font-bold text-[#f59e0b]">The Engineers' Creed (NSPE)</h2>
+        <p className="text-slate-300 leading-relaxed">
+          The National Society of Professional Engineers (NSPE) established the Engineers' Creed &mdash;
+          four pledges that define the ethical foundation of the profession.
+        </p>
+        <div className="space-y-3">
+          {[
+            { pledge: 'Utmost Performance', detail: 'Give the utmost of performance in the service of employers and clients', color: 'border-blue-500 bg-blue-900/20', num: 1 },
+            { pledge: 'Honest Enterprise', detail: 'Participate only in honest enterprise, maintaining fair dealing in all professional relationships', color: 'border-emerald-500 bg-emerald-900/20', num: 2 },
+            { pledge: 'Laws & Professional Conduct', detail: 'Live and work in accordance with the laws of the land and the highest standards of professional conduct', color: 'border-violet-500 bg-violet-900/20', num: 3 },
+            { pledge: 'Service Before Profit', detail: 'Place service before profit, honor and standing of the profession before personal advantage, and public welfare above all other considerations', color: 'border-amber-500 bg-amber-900/20', num: 4 },
+          ].map(({ pledge, detail, color, num }) => (
+            <div key={pledge} className={`flex gap-3 p-3 rounded-lg border ${color}`}>
+              <div className="w-7 h-7 rounded-full bg-[#0a0a16] flex items-center justify-center text-sm font-bold text-slate-200 shrink-0">{num}</div>
+              <div>
+                <div className="font-semibold text-slate-100 text-sm">{pledge}</div>
+                <div className="text-xs text-slate-400 mt-0.5">{detail}</div>
+              </div>
+            </div>
+          ))}
+        </div>
+        <div className="bg-amber-900/20 border border-amber-700 rounded-lg p-3 text-sm text-amber-200">
+          The fourth pledge is paramount: <strong>"Public welfare above all other considerations."</strong>
+        </div>
+      </div>
+    )
+  },
+  {
+    content: (
+      <div className="space-y-4">
+        <h2 className="text-2xl font-bold text-[#f59e0b]">Communication & Logbook Keeping</h2>
+        <p className="text-slate-300 leading-relaxed">
+          Shigley's emphasizes two practical professional skills that many students overlook:
+          <strong className="text-slate-100"> communication</strong> and <strong className="text-slate-100">record-keeping</strong>.
+        </p>
+        <div className="grid grid-cols-1 gap-3">
+          <div className="bg-[#0e0e1e] rounded-xl p-4 border border-[#252548]">
+            <div className="font-semibold text-slate-100 mb-2">Engineering Logbook</div>
+            <div className="space-y-1.5">
+              {[
+                'Keep a neat and clear journal/logbook with dated entries',
+                'Separate journals for each project',
+                'Record all decisions and the reasoning behind them',
+                'Critical for patent protection and liability defense',
+                'Must be legible enough for others to follow your work',
+              ].map(item => (
+                <div key={item} className="flex items-center gap-2 text-sm text-slate-300">
+                  <div className="w-2 h-2 rounded-full bg-[#f59e0b] shrink-0" />
+                  {item}
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="bg-[#0e0e1e] rounded-xl p-4 border border-[#252548]">
+            <div className="font-semibold text-slate-100 mb-2">Communication Reality</div>
+            <p className="text-sm text-slate-400">
+              Many engineers spend the majority of their professional time communicating &mdash;
+              writing reports, email correspondence, presenting findings to teams, negotiating with vendors,
+              and coordinating with manufacturing. Technical analysis, while important, is often a smaller
+              fraction of the workday than students expect.
+            </p>
+          </div>
+        </div>
+        <div className="bg-blue-900/20 border border-blue-700 rounded-lg p-3 text-sm text-blue-200">
+          A good logbook protects you legally, helps you recall decisions months later,
+          and demonstrates due diligence in your engineering process.
+        </div>
+      </div>
+    )
+  },
+  {
+    content: ({ onCorrect }) => (
+      <div className="space-y-4">
+        <h2 className="text-2xl font-bold text-[#f59e0b]">Check Your Understanding</h2>
+        <Quiz
+          question="Why should engineers keep detailed dated logbooks?"
+          options={[
+            "It's required by law",
+            'For patent protection, liability, and to explain decisions later',
+            'To track billing hours',
+            'For personal notes only'
+          ]}
+          correctIndex={1}
+          explanation="Engineering logbooks serve multiple critical purposes: establishing dates of invention for patent claims, documenting due diligence for liability defense, and providing a record that allows you (or others) to understand past decisions. While some industries have legal requirements, the primary reasons are patent protection and liability documentation."
+          onCorrect={onCorrect}
+        />
+      </div>
+    )
+  },
+  {
+    content: ({ onCorrect }) => (
+      <div className="space-y-4">
+        <h2 className="text-2xl font-bold text-[#f59e0b]">Check Your Understanding</h2>
+        <Quiz
+          question="The Engineers' Creed places what above all other considerations?"
+          options={[
+            'Corporate profit',
+            'Engineering excellence',
+            'Public welfare',
+            'Professional advancement'
+          ]}
+          correctIndex={2}
+          explanation={"The fourth pledge of the Engineers' Creed states: \"Place service before profit, honor and standing of the profession before personal advantage, and public welfare above all other considerations.\" Public safety and welfare are the paramount responsibility of every engineer."}
           onCorrect={onCorrect}
         />
       </div>
@@ -154,6 +238,6 @@ const steps = [
 
 export default function Module5() {
   return (
-    <ModuleLayout moduleId="module5" title="Design Factor & Reliability" icon="🎯" steps={steps} />
+    <ModuleLayout moduleId="module5" title="Professional Practice" icon="👔" steps={steps} />
   )
 }
