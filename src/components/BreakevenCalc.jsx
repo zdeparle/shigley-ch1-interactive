@@ -44,12 +44,12 @@ export default function BreakevenCalc() {
         <InteractiveSlider label="Labor cost ($/hr)" value={laborCost} min={10} max={50} step={1} onChange={setLaborCost} format={v => `$${v}`} />
       </div>
 
-      <div className="bg-[#0e0e1e] rounded-xl p-4">
+      <div className="bg-slate-50 rounded-xl p-4">
         <svg viewBox={`0 0 ${svgW} ${svgH}`} className="w-full">
           {/* Grid lines */}
           {[0.25, 0.5, 0.75, 1].map(f => (
             <line key={f} x1={pad.l} y1={yScale(f * maxCost)} x2={svgW - pad.r} y2={yScale(f * maxCost)}
-              stroke="#252548" strokeWidth="0.5" />
+              stroke="#e2e8f0" strokeWidth="0.5" />
           ))}
           {/* Axes */}
           <line x1={pad.l} y1={pad.t} x2={pad.l} y2={svgH - pad.b} stroke="#475569" strokeWidth="1" />
@@ -63,11 +63,11 @@ export default function BreakevenCalc() {
           {breakevenSimplified > 0 && breakevenSimplified < maxQ && (
             <>
               <line x1={xScale(breakevenSimplified)} y1={pad.t} x2={xScale(breakevenSimplified)} y2={svgH - pad.b}
-                stroke="#f59e0b" strokeWidth="1.5" strokeDasharray="4 3" />
+                stroke="#2563eb" strokeWidth="1.5" strokeDasharray="4 3" />
               <circle cx={xScale(breakevenSimplified)} cy={yScale(autoCost(breakevenSimplified))} r="5"
-                fill="#f59e0b" stroke="#0a0a16" strokeWidth="2" />
+                fill="#2563eb" stroke="#f8f9fb" strokeWidth="2" />
               <text x={xScale(breakevenSimplified)} y={pad.t + 12}
-                fill="#f59e0b" fontSize="10" fontWeight="bold" textAnchor="middle">
+                fill="#2563eb" fontSize="10" fontWeight="bold" textAnchor="middle">
                 Breakeven: {Math.round(breakevenSimplified)} parts
               </text>
             </>
@@ -83,17 +83,17 @@ export default function BreakevenCalc() {
       </div>
 
       <div className="grid grid-cols-3 gap-2 text-center">
-        <div className="bg-[#0e0e1e] rounded-lg p-2">
+        <div className="bg-slate-50 rounded-lg p-2">
           <div className="text-xs text-slate-500">Breakeven point</div>
-          <div className="font-mono font-bold text-[#f59e0b]">{Math.round(breakevenSimplified)} parts</div>
+          <div className="font-mono font-bold text-blue-600">{Math.round(breakevenSimplified)} parts</div>
         </div>
-        <div className="bg-[#0e0e1e] rounded-lg p-2">
+        <div className="bg-slate-50 rounded-lg p-2">
           <div className="text-xs text-slate-500">Auto setup cost</div>
           <div className="font-mono font-bold text-blue-400">${(setupTime * laborCost).toFixed(0)}</div>
         </div>
-        <div className="bg-[#0e0e1e] rounded-lg p-2">
+        <div className="bg-slate-50 rounded-lg p-2">
           <div className="text-xs text-slate-500">Cost at breakeven</div>
-          <div className="font-mono font-bold text-slate-200">${autoCost(breakevenSimplified).toFixed(0)}</div>
+          <div className="font-mono font-bold text-slate-700">${autoCost(breakevenSimplified).toFixed(0)}</div>
         </div>
       </div>
     </div>

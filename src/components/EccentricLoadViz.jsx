@@ -21,7 +21,7 @@ export default function EccentricLoadViz() {
     <div className="space-y-4">
       <div className="grid grid-cols-2 gap-4">
         {/* SVG diagram */}
-        <div className="bg-[#0e0e1e] rounded-xl p-3 flex items-center justify-center">
+        <div className="bg-slate-50 rounded-xl p-3 flex items-center justify-center">
           <svg viewBox={`0 0 ${svgW} ${svgH}`} className="w-full" style={{ maxHeight: 250 }}>
             {/* Support at top */}
             <rect x={60} y={10} width={80} height={12} rx={2} fill="#475569" />
@@ -31,15 +31,15 @@ export default function EccentricLoadViz() {
 
             {/* Rod */}
             <rect x={100 - 15} y={22} width={30} height={180} rx={4}
-              fill="#141428" stroke="#3b82f6" strokeWidth="2" />
+              fill="#ffffff" stroke="#3b82f6" strokeWidth="2" />
             <text x={100} y={112} fill="#3b82f6" fontSize="10" textAnchor="middle" fontWeight="bold">d</text>
 
             {/* Eccentricity marker */}
             {eccentricityPct > 0 && (
               <>
-                <line x1={100} y1={210} x2={100 + 30} y2={210} stroke="#f59e0b" strokeWidth="1" strokeDasharray="3 2" />
-                <line x1={100 + 30} y1={205} x2={100 + 30} y2={215} stroke="#f59e0b" strokeWidth="1" />
-                <text x={100 + 15} y={225} fill="#f59e0b" fontSize="9" textAnchor="middle">e</text>
+                <line x1={100} y1={210} x2={100 + 30} y2={210} stroke="#2563eb" strokeWidth="1" strokeDasharray="3 2" />
+                <line x1={100 + 30} y1={205} x2={100 + 30} y2={215} stroke="#2563eb" strokeWidth="1" />
+                <text x={100 + 15} y={225} fill="#2563eb" fontSize="9" textAnchor="middle">e</text>
               </>
             )}
 
@@ -68,19 +68,19 @@ export default function EccentricLoadViz() {
 
       {/* Results */}
       <div className="grid grid-cols-2 gap-2">
-        <div className="bg-[#0e0e1e] rounded-lg p-2 text-center">
+        <div className="bg-slate-50 rounded-lg p-2 text-center">
           <div className="text-xs text-slate-500">Axial: P/A</div>
           <div className="font-mono font-bold text-blue-400">{axialStress.toFixed(0)} psi</div>
         </div>
-        <div className="bg-[#0e0e1e] rounded-lg p-2 text-center">
+        <div className="bg-slate-50 rounded-lg p-2 text-center">
           <div className="text-xs text-slate-500">Bending: 32Pe/(πd³)</div>
           <div className="font-mono font-bold text-amber-400">{bendingStress.toFixed(0)} psi</div>
         </div>
-        <div className="bg-[#0e0e1e] rounded-lg p-2 text-center">
+        <div className="bg-slate-50 rounded-lg p-2 text-center">
           <div className="text-xs text-slate-500">Combined (static)</div>
-          <div className="font-mono font-bold text-slate-200">{totalStress.toFixed(0)} psi</div>
+          <div className="font-mono font-bold text-slate-700">{totalStress.toFixed(0)} psi</div>
         </div>
-        <div className={`rounded-lg p-2 text-center ${dynamicStress > 50000 ? 'bg-red-900/30' : 'bg-emerald-900/30'}`}>
+        <div className={`rounded-lg p-2 text-center ${dynamicStress > 50000 ? 'bg-red-50' : 'bg-emerald-50'}`}>
           <div className="text-xs text-slate-500">Dynamic σ_max</div>
           <div className={`font-mono font-bold ${dynamicStress > 50000 ? 'text-red-400' : 'text-emerald-400'}`}>
             {dynamicStress.toFixed(0)} psi
@@ -88,10 +88,10 @@ export default function EccentricLoadViz() {
         </div>
       </div>
 
-      <div className="bg-[#0e0e1e] rounded-lg p-3 font-mono text-xs text-slate-400">
+      <div className="bg-slate-50 rounded-lg p-3 font-mono text-xs text-slate-500">
         <div>σ_max = {loadFactor.toFixed(1)} × [4P/(πd²)] × [1 + 8×({eccentricityPct.toFixed(1)}%)]</div>
-        <div className="text-slate-200 mt-1">σ_max = {loadFactor.toFixed(1)} × {totalStress.toFixed(0)} = <span className="text-[#f59e0b] font-bold">{dynamicStress.toFixed(0)} psi</span></div>
-        <div className="mt-1">Ratio σ_max/σ_nom = <span className="text-[#f59e0b] font-bold">{(dynamicStress / axialStress).toFixed(3)}</span></div>
+        <div className="text-slate-700 mt-1">σ_max = {loadFactor.toFixed(1)} × {totalStress.toFixed(0)} = <span className="text-blue-600 font-bold">{dynamicStress.toFixed(0)} psi</span></div>
+        <div className="mt-1">Ratio σ_max/σ_nom = <span className="text-blue-600 font-bold">{(dynamicStress / axialStress).toFixed(3)}</span></div>
       </div>
     </div>
   )

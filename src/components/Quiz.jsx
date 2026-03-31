@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-export default function Quiz({ question, options, correctIndex, explanation, onCorrect }) {
+export default function Quiz({ question, options, correctIndex, explanation, onCorrect, onIncorrect }) {
   const [selected, setSelected] = useState(null)
   const [answered, setAnswered] = useState(false)
 
@@ -8,24 +8,25 @@ export default function Quiz({ question, options, correctIndex, explanation, onC
     if (answered) return
     setSelected(i)
     setAnswered(true)
-    if (i === correctIndex && onCorrect) onCorrect()
+    if (i === correctIndex) { if (onCorrect) onCorrect() }
+    else { if (onIncorrect) onIncorrect() }
   }
 
   const isCorrect = selected === correctIndex
 
   return (
     <div className="space-y-4">
-      <p className="text-lg font-semibold text-slate-100 leading-snug">{question}</p>
+      <p className="text-lg font-semibold text-slate-800 leading-snug">{question}</p>
       <div className="space-y-2.5">
         {options.map((opt, i) => {
           const isThis = i === selected
           const isAnswer = i === correctIndex
 
-          let classes = 'bg-[#1a1a36] border-[#252548] hover:border-amber-500/50 hover:bg-[#1e1e3a]'
+          let classes = 'bg-white border-slate-200 hover:border-blue-300 hover:bg-blue-50/50'
           if (answered && isAnswer) {
-            classes = 'bg-emerald-500/10 border-emerald-500 shadow-[0_0_12px_rgba(16,185,129,0.15)]'
+            classes = 'bg-emerald-50 border-emerald-400 shadow-sm'
           } else if (answered && isThis) {
-            classes = 'bg-red-500/10 border-red-500 shadow-[0_0_12px_rgba(239,68,68,0.15)]'
+            classes = 'bg-red-50 border-red-400 shadow-sm'
           }
 
           const animClass = answered && isThis
@@ -47,11 +48,11 @@ export default function Quiz({ question, options, correctIndex, explanation, onC
                     ? 'bg-emerald-500 text-white'
                     : answered && isThis
                       ? 'bg-red-500 text-white'
-                      : 'bg-[#252548] text-slate-400'
+                      : 'bg-slate-100 text-slate-500'
                 }`}>
                   {answered && isAnswer ? '✓' : answered && isThis ? '✗' : String.fromCharCode(65 + i)}
                 </span>
-                <span className={`text-sm leading-relaxed pt-0.5 ${answered && !isAnswer && !isThis ? 'text-slate-500' : 'text-slate-200'}`}>
+                <span className={`text-sm leading-relaxed pt-0.5 ${answered && !isAnswer && !isThis ? 'text-slate-400' : 'text-slate-700'}`}>
                   {opt}
                 </span>
               </div>
@@ -63,16 +64,14 @@ export default function Quiz({ question, options, correctIndex, explanation, onC
       {answered && (
         <div className={`animate-fade-in-up p-4 rounded-xl text-sm leading-relaxed ${
           isCorrect
-            ? 'bg-emerald-500/10 border border-emerald-500/30 text-emerald-200'
-            : 'bg-red-500/10 border border-red-500/30 text-red-200'
+            ? 'bg-emerald-50 border border-emerald-200 text-emerald-800'
+            : 'bg-red-50 border border-red-200 text-red-800'
         }`}>
           <div className="flex items-center gap-2 mb-1.5">
-            <span className={`text-lg ${isCorrect ? 'text-emerald-400' : 'text-red-400'}`}>
-              {isCorrect ? '🎯' : '💡'}
-            </span>
+            <span className="text-lg">{isCorrect ? '🎯' : '💡'}</span>
             <span className="font-bold">{isCorrect ? 'Correct!' : 'Not quite'}</span>
           </div>
-          <p className="text-slate-300">{explanation}</p>
+          <p className="text-slate-600">{explanation}</p>
         </div>
       )}
     </div>

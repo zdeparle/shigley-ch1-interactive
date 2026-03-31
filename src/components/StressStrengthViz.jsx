@@ -59,7 +59,7 @@ export default function StressStrengthViz({ stressMean, stressStd, strengthMean,
       <svg width={width} height={height} className="w-full">
         <path d={stressShade} fill="#ef4444" opacity="0.15" />
         <path d={strengthShade} fill="#10b981" opacity="0.15" />
-        {intPath && <path d={intPath} fill="#f59e0b" opacity="0.5" />}
+        {intPath && <path d={intPath} fill="#2563eb" opacity="0.5" />}
         <path d={stressPath} fill="none" stroke="#ef4444" strokeWidth="2.5" />
         <path d={strengthPath} fill="none" stroke="#10b981" strokeWidth="2.5" />
         <line x1={pad.left} y1={baseY} x2={pad.left + iW} y2={baseY} stroke="#4b5563" strokeWidth="1" />

@@ -1,0 +1,13 @@
+{
+  "appId": "com.shigley.ch1interactive",
+  "appName": "Shigley Ch1",
+  "webDir": "dist",
+  "server": {
+    "androidScheme": "https"
+  },
+  "ios": {
+    "contentInset": "automatic",
+    "preferredContentMode": "mobile",
+    "backgroundColor": "#f8f9fb"
+  }
+}

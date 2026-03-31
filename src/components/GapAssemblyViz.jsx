@@ -33,7 +33,7 @@ export default function GapAssemblyViz({ onCorrect }) {
   return (
     <div className="space-y-4">
       {/* SVG Assembly diagram */}
-      <div className="bg-[#0e0e1e] rounded-xl p-4">
+      <div className="bg-slate-50 rounded-xl p-4">
         <svg viewBox={`0 0 ${svgW} ${svgH}`} className="w-full">
           {/* Bolt/screw (full length a) */}
           <rect x={50} y={20} width={boltWidth} height={14} rx={2} fill="#475569" stroke="#64748b" strokeWidth="1" />
@@ -104,19 +104,19 @@ export default function GapAssemblyViz({ onCorrect }) {
 
       {/* Results */}
       <div className="grid grid-cols-4 gap-2 text-center">
-        <div className="bg-[#0e0e1e] rounded-lg p-2">
+        <div className="bg-slate-50 rounded-lg p-2">
           <div className="text-xs text-slate-500">w̄ (mean gap)</div>
-          <div className="font-mono font-bold text-slate-200">{wMean.toFixed(4)}"</div>
+          <div className="font-mono font-bold text-slate-700">{wMean.toFixed(4)}"</div>
         </div>
-        <div className="bg-[#0e0e1e] rounded-lg p-2">
+        <div className="bg-slate-50 rounded-lg p-2">
           <div className="text-xs text-slate-500">t_w (total tol)</div>
-          <div className="font-mono font-bold text-[#f59e0b]">±{tw.toFixed(4)}"</div>
+          <div className="font-mono font-bold text-blue-600">±{tw.toFixed(4)}"</div>
         </div>
-        <div className="bg-[#0e0e1e] rounded-lg p-2">
+        <div className="bg-slate-50 rounded-lg p-2">
           <div className="text-xs text-slate-500">w_max</div>
           <div className="font-mono font-bold text-emerald-400">{wMax.toFixed(4)}"</div>
         </div>
-        <div className={`rounded-lg p-2 ${wMin >= 0 ? 'bg-emerald-900/30' : 'bg-red-900/30'}`}>
+        <div className={`rounded-lg p-2 ${wMin >= 0 ? 'bg-emerald-50' : 'bg-red-50'}`}>
           <div className="text-xs text-slate-500">w_min</div>
           <div className={`font-mono font-bold ${wMin >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
             {wMin.toFixed(4)}"
@@ -124,9 +124,9 @@ export default function GapAssemblyViz({ onCorrect }) {
         </div>
       </div>
 
-      <div className="font-mono text-xs text-slate-400 bg-[#0e0e1e] rounded-lg p-3">
-        <div>w = a − b − c − d = {a.toFixed(3)} − {b.toFixed(3)} − {c.toFixed(3)} − {d.toFixed(3)} = <span className="text-[#f59e0b]">{wMean.toFixed(4)}"</span></div>
-        <div>t_w = {ta.toFixed(3)} + {tb.toFixed(3)} + {tc.toFixed(3)} + {td.toFixed(3)} = <span className="text-[#f59e0b]">±{tw.toFixed(4)}"</span></div>
+      <div className="font-mono text-xs text-slate-500 bg-slate-50 rounded-lg p-3">
+        <div>w = a − b − c − d = {a.toFixed(3)} − {b.toFixed(3)} − {c.toFixed(3)} − {d.toFixed(3)} = <span className="text-blue-600">{wMean.toFixed(4)}"</span></div>
+        <div>t_w = {ta.toFixed(3)} + {tb.toFixed(3)} + {tc.toFixed(3)} + {td.toFixed(3)} = <span className="text-blue-600">±{tw.toFixed(4)}"</span></div>
         <div className={`mt-1 font-semibold ${wMin >= 0.003 ? 'text-emerald-400' : 'text-red-400'}`}>
           {wMin >= 0.003 ? '✓ Gap always ≥ 0.003" — assembly will function' : '✗ Gap can go below 0.003" — risk of interference'}
         </div>

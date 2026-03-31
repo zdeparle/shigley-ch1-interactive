@@ -2,8 +2,8 @@ export default function InteractiveSlider({ label, value, min, max, step = 0.01,
   return (
     <div className="space-y-1">
       <div className="flex justify-between text-sm">
-        <span className="text-slate-400">{label}</span>
-        <span className="text-[#f59e0b] font-mono font-bold">{format(value)}{unit}</span>
+        <span className="text-slate-500">{label}</span>
+        <span className="text-blue-600 font-mono font-bold">{format(value)}{unit}</span>
       </div>
       <input
         type="range"
@@ -12,7 +12,7 @@ export default function InteractiveSlider({ label, value, min, max, step = 0.01,
         step={step}
         value={value}
         onChange={(e) => onChange(parseFloat(e.target.value))}
-        className="w-full accent-[#f59e0b]"
+        className="w-full accent-blue-600"
       />
       <div className="flex justify-between text-xs text-slate-600">
         <span>{min}</span>

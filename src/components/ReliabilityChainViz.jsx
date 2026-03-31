@@ -34,7 +34,7 @@ export default function ReliabilityChainViz({ onCorrect }) {
   return (
     <div className="space-y-4">
       {/* Chain visualization */}
-      <div className="bg-[#0e0e1e] rounded-xl p-3">
+      <div className="bg-slate-50 rounded-xl p-3">
         <svg viewBox={`0 0 ${svgW} ${svgH}`} className="w-full">
           {/* Connection lines */}
           {components.map((_, i) => {
@@ -47,17 +47,17 @@ export default function ReliabilityChainViz({ onCorrect }) {
           <line x1={5} y1={svgH / 2} x2={startX} y2={svgH / 2} stroke="#10b981" strokeWidth="2" />
           <polygon points={`${startX - 2},${svgH / 2 - 4} ${startX + 4},${svgH / 2} ${startX - 2},${svgH / 2 + 4}`} fill="#10b981" />
           {/* Output arrow */}
-          <line x1={startX + (components.length - 1) * gapX + boxW} y1={svgH / 2} x2={svgW - 5} y2={svgH / 2} stroke={systemR > 0.9 ? '#10b981' : systemR > 0.8 ? '#f59e0b' : '#ef4444'} strokeWidth="2" />
+          <line x1={startX + (components.length - 1) * gapX + boxW} y1={svgH / 2} x2={svgW - 5} y2={svgH / 2} stroke={systemR > 0.9 ? '#10b981' : systemR > 0.8 ? '#2563eb' : '#ef4444'} strokeWidth="2" />
 
           {/* Component boxes */}
           {components.map((c, i) => {
             const x = startX + i * gapX
-            const color = c.R >= 0.99 ? '#10b981' : c.R >= 0.95 ? '#3b82f6' : c.R >= 0.90 ? '#f59e0b' : '#ef4444'
+            const color = c.R >= 0.99 ? '#10b981' : c.R >= 0.95 ? '#3b82f6' : c.R >= 0.90 ? '#2563eb' : '#ef4444'
             return (
               <g key={i}>
                 <rect x={x} y={svgH / 2 - boxH / 2} width={boxW} height={boxH} rx={6}
-                  fill="#141428" stroke={color} strokeWidth="1.5" />
-                <text x={x + boxW / 2} y={svgH / 2 - 4} fill="#e2e8f0" fontSize="9" textAnchor="middle" fontWeight="600">
+                  fill="#ffffff" stroke={color} strokeWidth="1.5" />
+                <text x={x + boxW / 2} y={svgH / 2 - 4} fill="#1e293b" fontSize="9" textAnchor="middle" fontWeight="600">
                   {c.name}
                 </text>
                 <text x={x + boxW / 2} y={svgH / 2 + 10} fill={color} fontSize="10" textAnchor="middle" fontWeight="bold" fontFamily="monospace">
@@ -73,7 +73,7 @@ export default function ReliabilityChainViz({ onCorrect }) {
       <div className="space-y-2">
         {components.map((c, i) => (
           <div key={i} className="flex items-center gap-2">
-            <span className="text-xs text-slate-400 w-20 truncate">{c.name}</span>
+            <span className="text-xs text-slate-500 w-20 truncate">{c.name}</span>
             <input
               type="range"
               min={0.80}
@@ -81,11 +81,11 @@ export default function ReliabilityChainViz({ onCorrect }) {
               step={0.001}
               value={c.R}
               onChange={e => updateR(i, parseFloat(e.target.value))}
-              className="flex-1 accent-[#f59e0b]"
+              className="flex-1 accent-[#2563eb]"
             />
-            <span className="font-mono text-xs text-slate-200 w-14 text-right">{(c.R * 100).toFixed(1)}%</span>
+            <span className="font-mono text-xs text-slate-700 w-14 text-right">{(c.R * 100).toFixed(1)}%</span>
             {components.length > 2 && (
-              <button onClick={() => removeComponent(i)} className="text-red-500 text-xs hover:text-red-300">✕</button>
+              <button onClick={() => removeComponent(i)} className="text-red-500 text-xs hover:text-red-700">✕</button>
             )}
           </div>
         ))}
@@ -93,7 +93,7 @@ export default function ReliabilityChainViz({ onCorrect }) {
 
       <div className="flex gap-2">
         {components.length < 8 && (
-          <button onClick={addComponent} className="flex-1 py-1.5 rounded-lg border border-dashed border-[#252548] text-slate-400 text-xs hover:border-[#f59e0b] hover:text-[#f59e0b] transition-colors">
+          <button onClick={addComponent} className="flex-1 py-1.5 rounded-lg border border-dashed border-slate-200 text-slate-500 text-xs hover:border-blue-500 hover:text-blue-600 transition-colors">
             + Add Component
           </button>
         )}
@@ -101,11 +101,11 @@ export default function ReliabilityChainViz({ onCorrect }) {
 
       {/* System reliability result */}
       <div className={`text-center p-3 rounded-xl ${
-        systemR > 0.95 ? 'bg-emerald-900/30 border border-emerald-700' :
-        systemR > 0.90 ? 'bg-amber-900/30 border border-amber-700' :
-        'bg-red-900/30 border border-red-700'
+        systemR > 0.95 ? 'bg-emerald-50 border border-emerald-200' :
+        systemR > 0.90 ? 'bg-amber-50 border border-blue-200' :
+        'bg-red-50 border border-red-200'
       }`}>
-        <div className="text-xs text-slate-400 mb-1">System Reliability (R = R₁ × R₂ × ... × Rₙ)</div>
+        <div className="text-xs text-slate-500 mb-1">System Reliability (R = R₁ × R₂ × ... × Rₙ)</div>
         <div className={`font-mono text-2xl font-bold ${
           systemR > 0.95 ? 'text-emerald-400' : systemR > 0.90 ? 'text-amber-400' : 'text-red-400'
         }`}>

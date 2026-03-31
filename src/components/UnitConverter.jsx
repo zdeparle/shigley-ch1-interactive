@@ -47,13 +47,13 @@ export default function UnitConverter() {
   return (
     <div className="space-y-4">
       {/* Category tabs */}
-      <div className="flex gap-1 bg-[#0e0e1e] rounded-lg p-1">
+      <div className="flex gap-1 bg-slate-50 rounded-lg p-1">
         {categories.map((c, i) => (
           <button
             key={c.name}
             onClick={() => { setCatIdx(i); setBaseValue(c.name === 'Length' ? 1 : c.name === 'Mass' ? 1 : 1000) }}
             className={`flex-1 py-1.5 rounded-md text-xs font-semibold transition-colors ${
-              i === catIdx ? 'bg-[#f59e0b] text-black' : 'text-slate-400 hover:text-slate-200'
+              i === catIdx ? 'bg-blue-600 text-white' : 'text-slate-500 hover:text-slate-700'
             }`}
           >
             {c.name}
@@ -62,14 +62,14 @@ export default function UnitConverter() {
       </div>
 
       {/* Input */}
-      <div className="flex items-center gap-2 bg-[#0e0e1e] rounded-lg p-3 border border-[#252548]">
+      <div className="flex items-center gap-2 bg-slate-50 rounded-lg p-3 border border-slate-200">
         <input
           type="number"
           value={baseValue}
           onChange={e => setBaseValue(parseFloat(e.target.value) || 0)}
-          className="flex-1 bg-transparent text-slate-100 font-mono text-lg focus:outline-none"
+          className="flex-1 bg-transparent text-slate-800 font-mono text-lg focus:outline-none"
         />
-        <span className="text-[#f59e0b] font-mono font-bold">{cat.units[0].label}</span>
+        <span className="text-blue-600 font-mono font-bold">{cat.units[0].label}</span>
       </div>
 
       {/* Conversions */}
@@ -77,9 +77,9 @@ export default function UnitConverter() {
         {cat.units.slice(1).map(unit => {
           const converted = baseValue * unit.factor
           return (
-            <div key={unit.label} className="flex items-center justify-between bg-[#0e0e1e] rounded-lg p-3 border border-[#252548]">
-              <span className="text-sm text-slate-400">{unit.label}</span>
-              <span className="font-mono font-bold text-slate-100">
+            <div key={unit.label} className="flex items-center justify-between bg-slate-50 rounded-lg p-3 border border-slate-200">
+              <span className="text-sm text-slate-500">{unit.label}</span>
+              <span className="font-mono font-bold text-slate-800">
                 {Math.abs(converted) >= 1000
                   ? converted.toFixed(1)
                   : Math.abs(converted) >= 1
@@ -91,9 +91,9 @@ export default function UnitConverter() {
         })}
       </div>
 
-      <div className="bg-[#0e0e1e] rounded-lg p-3 border border-[#252548]">
+      <div className="bg-slate-50 rounded-lg p-3 border border-slate-200">
         <div className="text-xs text-slate-500 mb-1">Key relationships:</div>
-        <div className="text-xs text-slate-400 space-y-0.5 font-mono">
+        <div className="text-xs text-slate-500 space-y-0.5 font-mono">
           {catIdx === 0 && <>
             <div>1 lbf = 4.448 N</div>
             <div>1 kip = 1000 lbf</div>

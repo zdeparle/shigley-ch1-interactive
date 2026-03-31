@@ -3,7 +3,7 @@ function normalPDF(x, mu, sigma) {
   return (1 / (sigma * Math.sqrt(2 * Math.PI))) * Math.exp(-0.5 * ((x - mu) / sigma) ** 2)
 }
 
-export default function BellCurve({ mean = 0, std = 1, shadeBelow, color = '#f59e0b', fillColor, label, width = 400, height = 180 }) {
+export default function BellCurve({ mean = 0, std = 1, shadeBelow, color = '#2563eb', fillColor, label, width = 400, height = 180 }) {
   const xMin = mean - 4 * std
   const xMax = mean + 4 * std
   const steps = 200

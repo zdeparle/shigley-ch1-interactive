@@ -21,7 +21,7 @@ export default function ToleranceStackViz() {
   return (
     <div className="space-y-4">
       {/* SVG diagram */}
-      <div className="bg-[#0e0e1e] rounded-lg p-4">
+      <div className="bg-slate-50 rounded-lg p-4">
         <svg width="100%" viewBox="0 0 500 100">
           {dims.map((d, i) => {
             const totalWidth = dims.reduce((s, dd) => s + dd.nominal, 0)
@@ -32,8 +32,8 @@ export default function ToleranceStackViz() {
             const sw = w * scale
             return (
               <g key={i}>
-                <rect x={sx} y={30} width={sw} height={40} fill="#1a1a36" stroke="#f59e0b" strokeWidth="1.5" />
-                <text x={sx + sw / 2} y={55} textAnchor="middle" fill="#e2e8f0" fontSize="13" fontWeight="bold">{d.label}</text>
+                <rect x={sx} y={30} width={sw} height={40} fill="#f1f5f9" stroke="#2563eb" strokeWidth="1.5" />
+                <text x={sx + sw / 2} y={55} textAnchor="middle" fill="#1e293b" fontSize="13" fontWeight="bold">{d.label}</text>
                 <text x={sx + sw / 2} y={70} textAnchor="middle" fill="#94a3b8" fontSize="9">{d.nominal}"</text>
                 {/* Tolerance arrows */}
                 <text x={sx + sw / 2} y={25} textAnchor="middle" fill="#10b981" fontSize="8">+{d.plus}</text>
@@ -47,8 +47,8 @@ export default function ToleranceStackViz() {
       {/* Dimension inputs */}
       <div className="grid gap-3">
         {dims.map((d, i) => (
-          <div key={i} className="bg-[#0e0e1e] rounded-lg p-3 grid grid-cols-4 gap-2 items-center">
-            <span className="text-[#f59e0b] font-bold">{d.label}</span>
+          <div key={i} className="bg-slate-50 rounded-lg p-3 grid grid-cols-4 gap-2 items-center">
+            <span className="text-blue-600 font-bold">{d.label}</span>
             {[
               { label: 'Nominal', field: 'nominal', step: 0.5 },
               { label: '+Tol', field: 'plus', step: 0.001 },
@@ -61,7 +61,7 @@ export default function ToleranceStackViz() {
                   value={d[field]}
                   step={step}
                   onChange={e => update(i, field, parseFloat(e.target.value))}
-                  className="w-full bg-[#1a1a36] border border-[#252548] rounded px-2 py-1 text-sm font-mono text-slate-200"
+                  className="w-full bg-slate-100 border border-slate-200 rounded px-2 py-1 text-sm font-mono text-slate-700"
                 />
               </div>
             ))}
@@ -70,11 +70,11 @@ export default function ToleranceStackViz() {
       </div>
 
       {/* Stack-up result */}
-      <div className="bg-[#141428] border border-[#252548] rounded-lg p-4">
-        <h4 className="text-sm font-semibold text-slate-300 mb-2">Worst-Case Stack-up</h4>
+      <div className="bg-white border border-slate-200 rounded-lg p-4">
+        <h4 className="text-sm font-semibold text-slate-600 mb-2">Worst-Case Stack-up</h4>
         <div className="grid grid-cols-3 gap-3 text-center">
           <div>
-            <div className="text-lg font-bold font-mono text-slate-100">{totalNominal.toFixed(3)}"</div>
+            <div className="text-lg font-bold font-mono text-slate-800">{totalNominal.toFixed(3)}"</div>
             <div className="text-xs text-slate-500">Total Nominal</div>
           </div>
           <div>
@@ -87,8 +87,8 @@ export default function ToleranceStackViz() {
           </div>
         </div>
         <div className="mt-2 text-center">
-          <span className="text-sm text-slate-400">Total tolerance: </span>
-          <span className="font-mono font-bold text-[#f59e0b]">&plusmn;{((worst.max - worst.min) / 2).toFixed(3)}"</span>
+          <span className="text-sm text-slate-500">Total tolerance: </span>
+          <span className="font-mono font-bold text-blue-600">&plusmn;{((worst.max - worst.min) / 2).toFixed(3)}"</span>
         </div>
       </div>
     </div>

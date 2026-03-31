@@ -1,6 +1,8 @@
+import { Link } from 'react-router-dom'
 import LessonCard from '../components/LessonCard'
 import ProgressBar from '../components/ProgressBar'
 import useProgressStore from '../store/progressStore'
+import UNIT_TESTS from '../data/testQuestions'
 
 const UNITS = [
   {
@@ -59,16 +61,16 @@ const UNITS = [
 const ALL_MODULES = UNITS.flatMap(u => u.modules)
 
 const UNIT_COLORS = [
-  { accent: '#f59e0b', ring: 'ring-amber-500/30' },
-  { accent: '#3b82f6', ring: 'ring-blue-500/30' },
-  { accent: '#10b981', ring: 'ring-emerald-500/30' },
-  { accent: '#8b5cf6', ring: 'ring-violet-500/30' },
-  { accent: '#ec4899', ring: 'ring-pink-500/30' },
-  { accent: '#f97316', ring: 'ring-orange-500/30' },
+  { accent: '#2563eb', ring: 'ring-blue-500/30' },
+  { accent: '#7c3aed', ring: 'ring-violet-500/30' },
+  { accent: '#059669', ring: 'ring-emerald-500/30' },
+  { accent: '#dc2626', ring: 'ring-red-500/30' },
+  { accent: '#d97706', ring: 'ring-amber-500/30' },
+  { accent: '#0891b2', ring: 'ring-cyan-500/30' },
 ]
 
 export default function Home() {
-  const { moduleProgress, xp, streak, resetAll } = useProgressStore()
+  const { moduleProgress, unitTests, xp, streak, resetAll, isUnitUnlocked } = useProgressStore()
 
   const getProgress = (module) => {
     const p = moduleProgress[module.id]
@@ -86,56 +88,56 @@ export default function Home() {
   }, 0)
 
   return (
-    <div className="min-h-screen bg-[#0a0a16]">
+    <div className="min-h-screen bg-[#f8f9fb]">
       {/* Hero */}
-      <div className="relative overflow-hidden border-b border-[#252548]">
+      <div className="relative overflow-hidden border-b border-slate-200">
         {/* Background effects */}
         <div className="absolute inset-0 grid-bg opacity-50" />
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-amber-500/5 rounded-full blur-[100px]" />
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-blue-500/5 rounded-full blur-[100px]" />
 
-        <div className="relative max-w-4xl mx-auto px-4 py-12">
-          <div className="flex items-start gap-5">
-            <div className="text-5xl animate-float">⚙️</div>
-            <div className="flex-1">
-              <div className="inline-block text-xs font-bold uppercase tracking-widest mb-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-400">
+        <div className="relative max-w-4xl mx-auto px-3 sm:px-4 py-8 sm:py-12">
+          <div className="flex items-start gap-3 sm:gap-5">
+            <div className="text-4xl sm:text-5xl animate-float shrink-0">⚙️</div>
+            <div className="flex-1 min-w-0">
+              <div className="inline-block text-[10px] sm:text-xs font-bold uppercase tracking-widest mb-2 px-2.5 py-0.5 sm:px-3 sm:py-1 rounded-full bg-blue-50 border border-blue-200 text-blue-600">
                 Shigley's MED 11e
               </div>
-              <h1 className="text-3xl md:text-4xl font-bold text-white leading-tight">
+              <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-800 leading-tight">
                 Chapter 1: Introduction to<br />
                 <span className="gradient-text">Mechanical Engineering Design</span>
               </h1>
-              <p className="text-slate-500 mt-3 text-sm">
-                {ALL_MODULES.length} interactive modules · {totalSteps} learning steps · Immediate feedback
+              <p className="text-slate-500 mt-2 sm:mt-3 text-xs sm:text-sm">
+                {ALL_MODULES.length} modules · {totalSteps} steps · Immediate feedback
               </p>
 
               {/* Stats row */}
-              <div className="flex items-center gap-6 mt-5">
-                <div className="flex items-center gap-4 flex-1">
+              <div className="flex items-center gap-3 sm:gap-6 mt-4 sm:mt-5">
+                <div className="flex items-center gap-3 flex-1">
                   <ProgressBar percent={overallProgress} className="flex-1 max-w-xs" size="md" glow />
-                  <span className="text-sm font-bold text-slate-400 whitespace-nowrap">
-                    {totalCompleted}<span className="text-slate-600">/{ALL_MODULES.length}</span>
+                  <span className="text-xs sm:text-sm font-bold text-slate-500 whitespace-nowrap">
+                    {totalCompleted}<span className="text-slate-400">/{ALL_MODULES.length}</span>
                   </span>
                 </div>
               </div>
 
               {/* Gamification stats */}
-              <div className="flex items-center gap-4 mt-4">
-                <div className="flex items-center gap-1.5 bg-[#141428] border border-[#252548] rounded-xl px-3 py-1.5">
-                  <span className="text-amber-400 text-sm">⚡</span>
-                  <span className="text-sm font-bold text-amber-400">{xp || 0}</span>
-                  <span className="text-xs text-slate-500">XP</span>
+              <div className="flex flex-wrap items-center gap-2 sm:gap-4 mt-3 sm:mt-4">
+                <div className="flex items-center gap-1 sm:gap-1.5 bg-white border border-slate-200 rounded-xl px-2.5 py-1 sm:px-3 sm:py-1.5 shadow-sm">
+                  <span className="text-blue-500 text-xs sm:text-sm">⚡</span>
+                  <span className="text-xs sm:text-sm font-bold text-blue-600">{xp || 0}</span>
+                  <span className="text-[10px] sm:text-xs text-slate-500">XP</span>
                 </div>
                 {(streak || 0) > 0 && (
-                  <div className="flex items-center gap-1.5 bg-[#141428] border border-[#252548] rounded-xl px-3 py-1.5">
-                    <span className="text-orange-400 text-sm">🔥</span>
-                    <span className="text-sm font-bold text-orange-400">{streak}</span>
-                    <span className="text-xs text-slate-500">day streak</span>
+                  <div className="flex items-center gap-1 sm:gap-1.5 bg-white border border-slate-200 rounded-xl px-2.5 py-1 sm:px-3 sm:py-1.5 shadow-sm">
+                    <span className="text-orange-500 text-xs sm:text-sm">🔥</span>
+                    <span className="text-xs sm:text-sm font-bold text-orange-600">{streak}</span>
+                    <span className="text-[10px] sm:text-xs text-slate-500">streak</span>
                   </div>
                 )}
-                <div className="flex items-center gap-1.5 bg-[#141428] border border-[#252548] rounded-xl px-3 py-1.5">
-                  <span className="text-emerald-400 text-sm">✓</span>
-                  <span className="text-sm font-bold text-emerald-400">{stepsCompleted}</span>
-                  <span className="text-xs text-slate-500">steps done</span>
+                <div className="flex items-center gap-1 sm:gap-1.5 bg-white border border-slate-200 rounded-xl px-2.5 py-1 sm:px-3 sm:py-1.5 shadow-sm">
+                  <span className="text-emerald-500 text-xs sm:text-sm">✓</span>
+                  <span className="text-xs sm:text-sm font-bold text-emerald-600">{stepsCompleted}</span>
+                  <span className="text-[10px] sm:text-xs text-slate-500">done</span>
                 </div>
               </div>
             </div>
@@ -144,12 +146,12 @@ export default function Home() {
       </div>
 
       {/* Modules by unit */}
-      <div className="max-w-4xl mx-auto px-4 py-8">
-        <div className="flex items-center justify-between mb-8">
-          <h2 className="font-bold text-slate-200 text-lg">Learning Modules</h2>
+      <div className="max-w-4xl mx-auto px-3 sm:px-4 py-6 sm:py-8">
+        <div className="flex items-center justify-between mb-6 sm:mb-8">
+          <h2 className="font-bold text-slate-700 text-base sm:text-lg">Learning Modules</h2>
           <button
             onClick={resetAll}
-            className="text-xs text-slate-600 hover:text-slate-400 transition-colors px-3 py-1.5 rounded-lg hover:bg-[#141428] border border-transparent hover:border-[#252548]"
+            className="text-xs text-slate-600 hover:text-slate-400 transition-colors px-3 py-1.5 rounded-lg hover:bg-slate-100 border border-transparent hover:border-slate-200"
           >
             Reset progress
           </button>
@@ -160,24 +162,29 @@ export default function Home() {
             const color = UNIT_COLORS[ui]
             const unitModules = unit.modules
             const unitComplete = unitModules.every(m => moduleProgress[m.id]?.completed)
+            const unlocked = isUnitUnlocked(ui)
+            const testPassed = !!unitTests?.[ui]
+            const hasTest = UNIT_TESTS.some(t => t.unitIndex === ui)
+            const testData = UNIT_TESTS.find(t => t.unitIndex === ui)
 
             return (
               <div key={unit.title} className="animate-fade-in-up" style={{ animationDelay: `${ui * 0.05}s` }}>
                 {/* Unit header */}
                 <div className="flex items-center gap-3 mb-4">
                   <div
-                    className="w-8 h-8 rounded-xl flex items-center justify-center text-sm font-bold ring-2"
+                    className={`w-8 h-8 rounded-xl flex items-center justify-center text-sm font-bold ring-2 ${!unlocked ? 'opacity-40' : ''}`}
                     style={{
                       backgroundColor: color.accent + '15',
                       color: color.accent,
                       '--tw-ring-color': color.accent + '30',
                     }}
                   >
-                    {unitComplete ? '✓' : ui + 1}
+                    {!unlocked ? '🔒' : unitComplete ? '✓' : ui + 1}
                   </div>
                   <div className="flex-1">
-                    <h3 className="text-sm font-bold uppercase tracking-wider" style={{ color: color.accent }}>
+                    <h3 className={`text-sm font-bold uppercase tracking-wider ${!unlocked ? 'opacity-40' : ''}`} style={{ color: color.accent }}>
                       {unit.title}
+                      {!unlocked && <span className="text-xs font-normal text-slate-400 ml-2">Pass previous test to unlock</span>}
                     </h3>
                   </div>
                   <div className="h-px flex-1 max-w-24" style={{ backgroundColor: color.accent + '20' }} />
@@ -194,10 +201,65 @@ export default function Home() {
                         progress={getProgress(module)}
                         index={globalIdx}
                         unitIndex={ui}
+                        locked={!unlocked}
                       />
                     )
                   })}
                 </div>
+
+                {/* Unit test card — appears after every unit that has a test (units 0-4) */}
+                {hasTest && (
+                  <div className="pl-2 mt-3">
+                    {testPassed ? (
+                      /* Passed test card */
+                      <div className="flex items-center gap-4 bg-emerald-50 border border-emerald-200 rounded-2xl p-4">
+                        <div className="w-12 h-12 rounded-xl bg-emerald-100 flex items-center justify-center text-2xl shrink-0">
+                          ✅
+                        </div>
+                        <div className="flex-1">
+                          <div className="font-bold text-emerald-700 text-sm">Unit {ui + 1} Test — Passed!</div>
+                          <div className="text-xs text-emerald-600 mt-0.5">You've unlocked the next unit. +50 XP earned.</div>
+                        </div>
+                        <Link
+                          to={`/test/${ui}`}
+                          className="text-xs text-emerald-600 hover:text-emerald-700 font-medium px-3 py-1.5 rounded-lg hover:bg-emerald-100 transition-colors"
+                        >
+                          Retake
+                        </Link>
+                      </div>
+                    ) : unlocked ? (
+                      /* Available test card */
+                      <Link
+                        to={`/test/${ui}`}
+                        className="flex items-center gap-4 bg-white border-2 border-dashed border-blue-300 rounded-2xl p-4 hover:border-blue-500 hover:bg-blue-50 transition-all group"
+                      >
+                        <div className="w-12 h-12 rounded-xl bg-blue-100 flex items-center justify-center text-2xl shrink-0 group-hover:scale-110 transition-transform">
+                          📝
+                        </div>
+                        <div className="flex-1">
+                          <div className="font-bold text-blue-700 text-sm">Unit {ui + 1} Test: {testData.title}</div>
+                          <div className="text-xs text-slate-500 mt-0.5">
+                            {testData.questions.length} questions · {Math.round(testData.passingScore / testData.questions.length * 100)}% to pass · Unlocks next unit
+                          </div>
+                        </div>
+                        <div className="text-blue-600 font-bold text-sm group-hover:translate-x-1 transition-transform">
+                          Take Test →
+                        </div>
+                      </Link>
+                    ) : (
+                      /* Locked test card */
+                      <div className="flex items-center gap-4 bg-slate-50 border border-slate-200 rounded-2xl p-4 opacity-40">
+                        <div className="w-12 h-12 rounded-xl bg-slate-100 flex items-center justify-center text-2xl shrink-0">
+                          🔒
+                        </div>
+                        <div className="flex-1">
+                          <div className="font-bold text-slate-500 text-sm">Unit {ui + 1} Test</div>
+                          <div className="text-xs text-slate-400 mt-0.5">Complete previous units to unlock</div>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                )}
               </div>
             )
           })}

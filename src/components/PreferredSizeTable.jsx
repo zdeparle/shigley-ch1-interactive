@@ -26,13 +26,13 @@ export default function PreferredSizeTable({ computedSize, onSelect }) {
   return (
     <div className="space-y-3">
       {computedSize && (
-        <div className="bg-[#0e0e1e] rounded-lg p-3 border border-[#252548] flex items-center justify-between">
-          <span className="text-sm text-slate-400">Computed size:</span>
-          <span className="font-mono font-bold text-slate-200">{computedSize.toFixed(4)} in</span>
+        <div className="bg-slate-50 rounded-lg p-3 border border-slate-200 flex items-center justify-between">
+          <span className="text-sm text-slate-500">Computed size:</span>
+          <span className="font-mono font-bold text-slate-700">{computedSize.toFixed(4)} in</span>
         </div>
       )}
 
-      <div className="bg-[#0e0e1e] rounded-xl p-3 border border-[#252548]">
+      <div className="bg-slate-50 rounded-xl p-3 border border-slate-200">
         <div className="text-xs text-slate-500 mb-2">Table A-17: Preferred Fractional Sizes (inches)</div>
         <div className="grid grid-cols-5 gap-1">
           {preferredFractional.map((size, i) => {
@@ -46,12 +46,12 @@ export default function PreferredSizeTable({ computedSize, onSelect }) {
                 onClick={() => handleSelect(i)}
                 className={`p-1.5 rounded text-xs font-mono text-center transition-all border ${
                   isNextLarger
-                    ? 'bg-[#f59e0b]/20 border-[#f59e0b] text-[#f59e0b] font-bold ring-1 ring-[#f59e0b]'
+                    ? 'bg-blue-600/20 border-blue-500 text-blue-600 font-bold ring-1 ring-blue-500'
                     : isSelected
-                      ? 'bg-blue-900/30 border-blue-500 text-blue-300'
+                      ? 'bg-blue-50 border-blue-500 text-blue-700'
                       : isTooSmall
-                        ? 'bg-red-900/10 border-[#252548] text-slate-600'
-                        : 'bg-[#141428] border-[#252548] text-slate-300 hover:border-slate-500'
+                        ? 'bg-red-50 border-slate-200 text-slate-600'
+                        : 'bg-white border-slate-200 text-slate-600 hover:border-slate-500'
                 }`}
               >
                 <div>{fractionalLabels[i]}</div>
@@ -63,15 +63,15 @@ export default function PreferredSizeTable({ computedSize, onSelect }) {
       </div>
 
       {computedSize && nextLarger && (
-        <div className="bg-emerald-900/20 border border-emerald-700 rounded-lg p-3 text-sm text-emerald-200">
-          Next preferred size ≥ {computedSize.toFixed(4)}: <strong className="text-[#f59e0b]">{fractionalLabels[nextLargerIdx]}" = {nextLarger.toFixed(4)} in</strong>
+        <div className="bg-emerald-50 border border-emerald-200 rounded-lg p-3 text-sm text-emerald-700">
+          Next preferred size ≥ {computedSize.toFixed(4)}: <strong className="text-blue-600">{fractionalLabels[nextLargerIdx]}" = {nextLarger.toFixed(4)} in</strong>
         </div>
       )}
 
       <div className="flex gap-2 text-xs">
-        <div className="flex items-center gap-1"><div className="w-3 h-3 rounded bg-red-900/30 border border-[#252548]" /> Too small</div>
-        <div className="flex items-center gap-1"><div className="w-3 h-3 rounded bg-[#f59e0b]/20 border border-[#f59e0b]" /> Next larger</div>
-        <div className="flex items-center gap-1"><div className="w-3 h-3 rounded bg-[#141428] border border-[#252548]" /> Available</div>
+        <div className="flex items-center gap-1"><div className="w-3 h-3 rounded bg-red-50 border border-slate-200" /> Too small</div>
+        <div className="flex items-center gap-1"><div className="w-3 h-3 rounded bg-blue-600/20 border border-blue-500" /> Next larger</div>
+        <div className="flex items-center gap-1"><div className="w-3 h-3 rounded bg-white border border-slate-200" /> Available</div>
       </div>
     </div>
   )

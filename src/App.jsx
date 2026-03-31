@@ -1,5 +1,6 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { HashRouter, Routes, Route } from 'react-router-dom'
 import Home from './pages/Home'
+import LevelTest from './pages/LevelTest'
 import Module1 from './modules/Module1'
 import Module2 from './modules/Module2'
 import Module3 from './modules/Module3'
@@ -18,9 +19,10 @@ import Module15 from './modules/Module15'
 
 export default function App() {
   return (
-    <BrowserRouter>
+    <HashRouter>
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/test/:unitIndex" element={<LevelTest />} />
         <Route path="/module/module1" element={<Module1 />} />
         <Route path="/module/module2" element={<Module2 />} />
         <Route path="/module/module3" element={<Module3 />} />
@@ -37,6 +39,6 @@ export default function App() {
         <Route path="/module/module14" element={<Module14 />} />
         <Route path="/module/module15" element={<Module15 />} />
       </Routes>
-    </BrowserRouter>
+    </HashRouter>
   )
 }

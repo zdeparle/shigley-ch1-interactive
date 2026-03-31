@@ -45,24 +45,24 @@ export default function SigFigsChecker({ onCorrect }) {
   return (
     <div className="space-y-4">
       <div className="flex gap-2 mb-2">
-        <div className={`px-3 py-1 rounded-full text-xs font-semibold ${phase === 'count' ? 'bg-[#f59e0b] text-black' : 'bg-[#252548] text-slate-400'}`}>
+        <div className={`px-3 py-1 rounded-full text-xs font-semibold ${phase === 'count' ? 'bg-blue-600 text-white' : 'bg-slate-100 text-slate-500'}`}>
           1. Count sig figs
         </div>
-        <div className={`px-3 py-1 rounded-full text-xs font-semibold ${phase === 'round' ? 'bg-[#f59e0b] text-black' : 'bg-[#252548] text-slate-400'}`}>
+        <div className={`px-3 py-1 rounded-full text-xs font-semibold ${phase === 'round' ? 'bg-blue-600 text-white' : 'bg-slate-100 text-slate-500'}`}>
           2. Round answers
         </div>
       </div>
 
       {phase === 'count' && (
         <div className="space-y-2">
-          <p className="text-sm text-slate-300">How many significant figures does each number have?</p>
+          <p className="text-sm text-slate-600">How many significant figures does each number have?</p>
           {problems.map((p, i) => (
-            <div key={i} className={`flex items-center gap-3 bg-[#0e0e1e] rounded-lg p-3 border ${
+            <div key={i} className={`flex items-center gap-3 bg-slate-50 rounded-lg p-3 border ${
               checked
                 ? parseInt(answers[i]) === p.sigFigs ? 'border-emerald-600' : 'border-red-600'
-                : 'border-[#252548]'
+                : 'border-slate-200'
             }`}>
-              <span className="font-mono text-lg text-slate-100 w-24">{p.display}</span>
+              <span className="font-mono text-lg text-slate-800 w-24">{p.display}</span>
               <input
                 type="number"
                 min={1}
@@ -70,7 +70,7 @@ export default function SigFigsChecker({ onCorrect }) {
                 value={answers[i] || ''}
                 onChange={e => handleChange(i, e.target.value)}
                 disabled={checked}
-                className="w-16 bg-[#141428] border border-[#252548] rounded px-2 py-1 text-center font-mono text-slate-100 focus:outline-none focus:ring-1 focus:ring-[#f59e0b]"
+                className="w-16 bg-white border border-slate-200 rounded px-2 py-1 text-center font-mono text-slate-800 focus:outline-none focus:ring-1 focus:ring-blue-500"
                 placeholder="?"
               />
               <span className="text-xs text-slate-500">sig figs</span>
@@ -86,14 +86,14 @@ export default function SigFigsChecker({ onCorrect }) {
 
       {phase === 'round' && (
         <div className="space-y-2">
-          <p className="text-sm text-slate-300">Round each calculation to the correct number of significant figures:</p>
+          <p className="text-sm text-slate-600">Round each calculation to the correct number of significant figures:</p>
           {roundingProblems.map((p, i) => (
-            <div key={i} className={`bg-[#0e0e1e] rounded-lg p-3 border ${
+            <div key={i} className={`bg-slate-50 rounded-lg p-3 border ${
               checked
                 ? answers[i]?.trim() === p.answer ? 'border-emerald-600' : 'border-red-600'
-                : 'border-[#252548]'
+                : 'border-slate-200'
             }`}>
-              <div className="font-mono text-sm text-slate-300 mb-2">{p.question}</div>
+              <div className="font-mono text-sm text-slate-600 mb-2">{p.question}</div>
               <div className="flex items-center gap-2">
                 <span className="text-slate-500 text-sm">=</span>
                 <input
@@ -101,7 +101,7 @@ export default function SigFigsChecker({ onCorrect }) {
                   value={answers[i] || ''}
                   onChange={e => handleChange(i, e.target.value)}
                   disabled={checked}
-                  className="w-32 bg-[#141428] border border-[#252548] rounded px-2 py-1 font-mono text-slate-100 focus:outline-none focus:ring-1 focus:ring-[#f59e0b]"
+                  className="w-32 bg-white border border-slate-200 rounded px-2 py-1 font-mono text-slate-800 focus:outline-none focus:ring-1 focus:ring-blue-500"
                   placeholder="?"
                 />
                 <span className="text-xs text-slate-500">({p.sigFigs} sig figs)</span>
@@ -119,7 +119,7 @@ export default function SigFigsChecker({ onCorrect }) {
 
       {allFilled && !checked && (
         <button onClick={handleCheck}
-          className="w-full bg-[#f59e0b] text-black py-2.5 rounded-xl font-semibold hover:bg-[#d97706] transition-colors">
+          className="w-full bg-blue-600 text-white py-2.5 rounded-xl font-semibold hover:bg-blue-700 transition-colors">
           Check Answers
         </button>
       )}

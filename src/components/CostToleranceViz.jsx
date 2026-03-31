@@ -40,12 +40,12 @@ export default function CostToleranceViz() {
 
   return (
     <div className="space-y-4">
-      <div className="bg-[#0e0e1e] rounded-xl p-4">
+      <div className="bg-slate-50 rounded-xl p-4">
         <svg viewBox={`0 0 ${svgW} ${svgH}`} className="w-full">
           {/* Grid */}
           {[100, 200, 300, 400].map(c => (
             <g key={c}>
-              <line x1={pad.l} y1={yScale(c)} x2={svgW - pad.r} y2={yScale(c)} stroke="#252548" strokeWidth="0.5" />
+              <line x1={pad.l} y1={yScale(c)} x2={svgW - pad.r} y2={yScale(c)} stroke="#e2e8f0" strokeWidth="0.5" />
               <text x={pad.l - 5} y={yScale(c) + 3} fill="#94a3b8" fontSize="9" textAnchor="end">{c}%</text>
             </g>
           ))}
@@ -55,24 +55,24 @@ export default function CostToleranceViz() {
           <line x1={pad.l} y1={svgH - pad.b} x2={svgW - pad.r} y2={svgH - pad.b} stroke="#475569" strokeWidth="1" />
 
           {/* Curve */}
-          <path d={curvePath} fill="none" stroke="#f59e0b" strokeWidth="2.5" />
+          <path d={curvePath} fill="none" stroke="#2563eb" strokeWidth="2.5" />
 
           {/* Process points */}
           {processes.map(p => (
             <g key={p.name}>
               <circle cx={xScale(p.tol)} cy={yScale(p.cost)} r="5"
-                fill={p.name === nearestProcess.name ? '#f59e0b' : '#141428'}
-                stroke={p.name === nearestProcess.name ? '#f59e0b' : '#475569'} strokeWidth="2" />
+                fill={p.name === nearestProcess.name ? '#2563eb' : '#ffffff'}
+                stroke={p.name === nearestProcess.name ? '#2563eb' : '#475569'} strokeWidth="2" />
               <text x={xScale(p.tol)} y={yScale(p.cost) - 10}
-                fill="#e2e8f0" fontSize="9" textAnchor="middle" fontWeight="500">{p.name}</text>
+                fill="#1e293b" fontSize="9" textAnchor="middle" fontWeight="500">{p.name}</text>
             </g>
           ))}
 
           {/* Selected tolerance line */}
           <line x1={xScale(selectedTol)} y1={pad.t} x2={xScale(selectedTol)} y2={svgH - pad.b}
-            stroke="#f59e0b" strokeWidth="1" strokeDasharray="4 3" opacity="0.6" />
+            stroke="#2563eb" strokeWidth="1" strokeDasharray="4 3" opacity="0.6" />
           <circle cx={xScale(selectedTol)} cy={yScale(Math.min(interpCost, costRange[1]))} r="6"
-            fill="#f59e0b" stroke="#0a0a16" strokeWidth="2" />
+            fill="#2563eb" stroke="#f8f9fb" strokeWidth="2" />
 
           {/* Axis labels */}
           <text x={svgW / 2} y={svgH - 5} fill="#94a3b8" fontSize="10" textAnchor="middle">
@@ -98,22 +98,22 @@ export default function CostToleranceViz() {
           step={0.0005}
           value={selectedTol}
           onChange={e => setSelectedTol(parseFloat(e.target.value))}
-          className="w-full accent-[#f59e0b]"
+          className="w-full accent-[#2563eb]"
         />
       </div>
 
       <div className="grid grid-cols-2 gap-2 text-center">
-        <div className="bg-[#0e0e1e] rounded-lg p-2">
+        <div className="bg-slate-50 rounded-lg p-2">
           <div className="text-xs text-slate-500">Selected tolerance</div>
-          <div className="font-mono font-bold text-[#f59e0b]">±{selectedTol.toFixed(4)} in</div>
+          <div className="font-mono font-bold text-blue-600">±{selectedTol.toFixed(4)} in</div>
         </div>
-        <div className="bg-[#0e0e1e] rounded-lg p-2">
+        <div className="bg-slate-50 rounded-lg p-2">
           <div className="text-xs text-slate-500">Relative cost</div>
-          <div className="font-mono font-bold text-slate-200">~{Math.min(Math.round(interpCost), 400)}%</div>
+          <div className="font-mono font-bold text-slate-700">~{Math.min(Math.round(interpCost), 400)}%</div>
         </div>
       </div>
 
-      <div className="bg-amber-900/20 border border-amber-700 rounded-lg p-3 text-sm text-amber-200">
+      <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 text-sm text-blue-800">
         Key insight: Moving from ±0.010 to ±0.001 can increase costs by <strong>4-10×</strong>. Always use the loosest tolerance that still meets functional requirements.
       </div>
     </div>
